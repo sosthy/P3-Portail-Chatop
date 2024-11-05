@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: portail
+  datasource:
+    url: jdbc:mysql://localhost:3306/oc1_estate
+    username: chatop.user
+    password: chatop.pwd
