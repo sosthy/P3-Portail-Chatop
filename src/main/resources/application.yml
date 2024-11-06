@@ -5,3 +5,11 @@ spring:
     url: jdbc:mysql://localhost:3306/oc1_estate
     username: chatop.user
     password: chatop.pwd
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+chatop:
+  app:
+    jwtSecret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+    jwtExpirationMs: 8640000

@@ -9,24 +9,24 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import fr.chatop.portail.service.CustomUserDetailsService;
+import fr.chatop.portail.service.UserService;
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfiguration {
 
-    private final CustomUserDetailsService customUserDetailsService;
+    private final UserService customUserDetailsService;
+    private final JwtAuthFilter jwtAuthFilter;
     private final String[] WHITE_URLS = {
-        "/api/auth/email",
-        "/api/auth/register",
+        "/api/v1/auth/login",
+        "/api/v1/auth/register",
         "/v3/api-docs*/**",
         "/swagger-ui*/**"
     };
-
-    public SecurityConfiguration(CustomUserDetailsService customUserDetailsService) {
-        this.customUserDetailsService = customUserDetailsService;
-    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -35,6 +35,7 @@ public class SecurityConfiguration {
             .authorizeHttpRequests(authorize -> authorize 
                 .requestMatchers(WHITE_URLS).permitAll()
                 .anyRequest().authenticated())
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
             .build();
     }
 
