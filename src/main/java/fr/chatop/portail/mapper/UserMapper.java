@@ -4,6 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import fr.chatop.portail.dto.AppUserDTO;
 import fr.chatop.portail.dto.UserResponseDTO;
 import fr.chatop.portail.entity.AppUser;
 
@@ -14,8 +15,8 @@ public interface UserMapper {
 
     @Mapping(target = "name", ignore = true)
     @Mapping(target = "email", source = "username")
+    AppUserDTO toDTO(AppUser appUser);
+
     @Mapping(target = "password", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "updatedAt", ignore = true)
-    UserResponseDTO toDTO(AppUser appUser);
+    UserResponseDTO toDTO(AppUserDTO appUserDTO);
 }

@@ -17,12 +17,14 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Entity
-@Setter @Getter
+@SuperBuilder
 @NoArgsConstructor
+@Setter @Getter
 @Table(name = "users")
-public class AppUser implements UserDetails {
+public class AppUser extends Auditable implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -6,15 +6,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.chatop.portail.api.UserApi;
 import fr.chatop.portail.dto.UserResponseDTO;
+import fr.chatop.portail.mapper.UserMapper;
+import fr.chatop.portail.service.UserService;
+import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("api/v1")
+@RequestMapping("api")
+@RequiredArgsConstructor
 public class UserController implements UserApi {
+
+    private final UserService userService;
 
     @Override
     public ResponseEntity<UserResponseDTO> getUserById(Long userId) {
-        // TODO Auto-generated method stub
-        return UserApi.super.getUserById(userId);
+        final var userDTO = userService.getUserById(userId);
+        return ResponseEntity.ok(UserMapper.INSTANCE.toDTO(userDTO));
     }
     
 }

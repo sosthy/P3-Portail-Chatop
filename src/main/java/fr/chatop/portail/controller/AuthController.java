@@ -5,16 +5,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import fr.chatop.portail.api.AuthApi;
+import fr.chatop.portail.dto.AppUserDTO;
 import fr.chatop.portail.dto.TokenResponseDTO;
+import fr.chatop.portail.dto.UserDTO;
 import fr.chatop.portail.dto.UserLoginDTO;
 import fr.chatop.portail.dto.UserRegisterDTO;
 import fr.chatop.portail.dto.UserResponseDTO;
+import fr.chatop.portail.mapper.UserMapper;
 import fr.chatop.portail.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("api/v1")
+@RequestMapping("api")
 @RequiredArgsConstructor
 public class AuthController implements AuthApi {
 
@@ -34,7 +37,8 @@ public class AuthController implements AuthApi {
 
     @Override
     public ResponseEntity<UserResponseDTO> whoIam() {
-        return ResponseEntity.ok(authService.whoIam());
+        final AppUserDTO appUserDTO = authService.whoIam();
+        return ResponseEntity.ok(UserMapper.INSTANCE.toDTO(appUserDTO));
     }
 
 }

@@ -10,7 +10,7 @@ import fr.chatop.portail.dto.MessageResponseDTO;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("api/v1")
+@RequestMapping("api")
 public class MessageController implements MessageApi {
 
     @Override

@@ -11,10 +11,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import fr.chatop.portail.dto.AppUserDTO;
 import fr.chatop.portail.dto.TokenResponseDTO;
 import fr.chatop.portail.dto.UserLoginDTO;
 import fr.chatop.portail.dto.UserRegisterDTO;
-import fr.chatop.portail.dto.UserResponseDTO;
 import fr.chatop.portail.entity.AppUser;
 import fr.chatop.portail.mapper.UserMapper;
 import fr.chatop.portail.entity.AppRole;
@@ -42,7 +42,7 @@ public class AuthServiceImpl implements AuthService {
         
         final String jwt = jwtUtils.generateJwtToken(authenticationResponse);
         final TokenResponseDTO tokenResponseDTO = new TokenResponseDTO();
-        tokenResponseDTO.setMessage(jwt);
+        tokenResponseDTO.setToken(jwt);
 
         return tokenResponseDTO;
     }
@@ -62,7 +62,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public UserResponseDTO whoIam() {
+    public AppUserDTO whoIam() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         final Optional<AppUser> appUser = userRepository.findByUsername(userDetails.getUsername());
