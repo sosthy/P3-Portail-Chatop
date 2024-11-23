@@ -1,16 +1,13 @@
 package fr.chatop.portail.entity;
 
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@Entity
-@Getter @Setter
+@Entity @Data
 @NoArgsConstructor
-@Table(name = "roles")
+@Table(name = "ROLES")
 public class AppRole implements GrantedAuthority {
 
     @Id

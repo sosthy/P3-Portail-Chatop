@@ -1,13 +1,5 @@
 package fr.chatop.portail.controller;
 
-import java.util.List;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-
 import fr.chatop.portail.api.RentalApi;
 import fr.chatop.portail.dto.MessageResponseDTO;
 import fr.chatop.portail.dto.RentalDTO;
@@ -16,6 +8,13 @@ import fr.chatop.portail.mapper.RentalMapper;
 import fr.chatop.portail.service.RentalService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,19 +22,20 @@ import lombok.RequiredArgsConstructor;
 public class RentalController implements RentalApi {
 
     private final RentalService rentalService;
+    private final RentalMapper rentalMapper;
 
     @Override
     public ResponseEntity<List<RentalResponseDTO>> getAllRentals() {
         
         final List<RentalDTO> rentalDTOs = rentalService.getAllRentals();
-        return ResponseEntity.ok(RentalMapper.INSTANCE.toResponseDTO(rentalDTOs));
+        return ResponseEntity.ok(rentalMapper.toResponseDTO(rentalDTOs));
     }
 
     @Override
     public ResponseEntity<RentalResponseDTO> getRentalById(Long rentalId) {
         
         final RentalDTO rentalDTO = rentalService.getRentalById(rentalId);
-        return ResponseEntity.ok(RentalMapper.INSTANCE.toResponseDTO(rentalDTO));
+        return ResponseEntity.ok(rentalMapper.toResponseDTO(rentalDTO));
     }
 
     @Override

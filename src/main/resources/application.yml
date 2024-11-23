@@ -1,3 +1,6 @@
+server:
+  port: 3001
+
 spring:
   application:
     name: portail
@@ -7,7 +10,7 @@ spring:
     password: chatop.pwd
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
 
 chatop:
   app:

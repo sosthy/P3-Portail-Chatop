@@ -1,11 +1,10 @@
 package fr.chatop.portail.repository;
 
-import java.util.Optional;
-
+import fr.chatop.portail.entity.AppRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import fr.chatop.portail.entity.AppRole;
+import java.util.Optional;
 
 @Repository
 public interface RoleRepository extends JpaRepository<AppRole, Long> {

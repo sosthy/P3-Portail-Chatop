@@ -1,15 +1,19 @@
 package fr.chatop.portail.mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
-
-import fr.chatop.portail.dto.MessageResponseDTO;
+import fr.chatop.portail.dto.MessageBodyDTO;
+import fr.chatop.portail.dto.MessageDTO;
 import fr.chatop.portail.entity.Message;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface MessageMapper {
 
-    final MessageMapper INSTANCE = Mappers.getMapper(MessageMapper.class); 
+    MessageDTO toDTO(Message message);
+    Message toEntity(MessageDTO messageDTO);
 
-    MessageResponseDTO toDTO(Message message);
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "rental.id", source = "rentalId")
+    @Mapping(target = "owner.id", source = "userId")
+    MessageDTO toDTO(MessageBodyDTO messageBodyDTO);
 }

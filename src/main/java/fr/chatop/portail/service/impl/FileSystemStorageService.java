@@ -1,19 +1,15 @@
 package fr.chatop.portail.service.impl;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-
+import fr.chatop.portail.exception.StorageException;
+import fr.chatop.portail.service.StorageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import fr.chatop.portail.exception.StorageException;
-import fr.chatop.portail.service.StorageService;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.*;
+import java.util.Objects;
 
 @Service
 public class FileSystemStorageService implements StorageService {
@@ -36,7 +32,8 @@ public class FileSystemStorageService implements StorageService {
             if (file.isEmpty()) 
                 throw new StorageException("Failed to store empty file.");
 
-            final Path destinationFile = rootLocation.resolve(Paths.get(file.getOriginalFilename())).normalize().toAbsolutePath();
+            final String filename = Objects.requireNonNull(file.getOriginalFilename());
+            final Path destinationFile = rootLocation.resolve(Paths.get(filename)).normalize().toAbsolutePath();
 
             if (!destinationFile.getParent().equals(rootLocation.toAbsolutePath())) 
                 throw new StorageException("Cannot store file outside current directory.");

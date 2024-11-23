@@ -1,24 +1,26 @@
 package fr.chatop.portail.dto;
 
-import java.util.Collections;
-import java.util.List;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-@Getter @Setter
+@Data
+@NoArgsConstructor
 public class RentalDTO {
     
     private Long id;
     private String name;
-    private List<MultipartFile> picturesFiles = Collections.emptyList();
-    private List<String> picturesNames = Collections.emptyList();
+    private List<MultipartFile> picturesFiles = new ArrayList<>();
+    private List<String> picturesNames = new ArrayList<>();
     private String description;
     private Long ownerId;
     private Double surface;
     private Double price;
-    private String createdAt;
-    private String updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
 }

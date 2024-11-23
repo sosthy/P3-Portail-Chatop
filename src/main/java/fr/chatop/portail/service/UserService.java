@@ -1,8 +1,7 @@
 package fr.chatop.portail.service;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
-
 import fr.chatop.portail.dto.AppUserDTO;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 
 public interface UserService extends UserDetailsService {

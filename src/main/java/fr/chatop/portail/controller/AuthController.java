@@ -1,44 +1,46 @@
 package fr.chatop.portail.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import fr.chatop.portail.api.AuthApi;
-import fr.chatop.portail.dto.AppUserDTO;
-import fr.chatop.portail.dto.TokenResponseDTO;
-import fr.chatop.portail.dto.UserDTO;
-import fr.chatop.portail.dto.UserLoginDTO;
-import fr.chatop.portail.dto.UserRegisterDTO;
-import fr.chatop.portail.dto.UserResponseDTO;
+import fr.chatop.portail.dto.*;
 import fr.chatop.portail.mapper.UserMapper;
 import fr.chatop.portail.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+@Log4j2
 @RestController
-@RequestMapping("api")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class AuthController implements AuthApi {
 
     private final AuthService authService;
+    private final UserMapper userMapper;
 
     @Override
     public ResponseEntity<TokenResponseDTO> authenticateUser(@Valid UserLoginDTO userLoginDTO) {
-        TokenResponseDTO tokenResponseDTO = authService.authenticateUser(userLoginDTO);
+        final String token = authService.authenticateUser(userLoginDTO);
+        final TokenResponseDTO tokenResponseDTO = new TokenResponseDTO();
+        tokenResponseDTO.setToken(token);
         return ResponseEntity.ok(tokenResponseDTO);
     }
 
     @Override
     public ResponseEntity<TokenResponseDTO> registerUser(@Valid UserRegisterDTO userRegisterDTO) {
-        final TokenResponseDTO registeredUser = authService.registerUser(userRegisterDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(registeredUser);
+        final String token = authService.registerUser(userRegisterDTO);
+        final TokenResponseDTO tokenResponseDTO = new TokenResponseDTO();
+        tokenResponseDTO.setToken(token);
+        return ResponseEntity.status(HttpStatus.CREATED).body(tokenResponseDTO);
     }
 
     @Override
     public ResponseEntity<UserResponseDTO> whoIam() {
         final AppUserDTO appUserDTO = authService.whoIam();
-        return ResponseEntity.ok(UserMapper.INSTANCE.toDTO(appUserDTO));
+        return ResponseEntity.ok(userMapper.toDTO(appUserDTO));
     }
 
 }

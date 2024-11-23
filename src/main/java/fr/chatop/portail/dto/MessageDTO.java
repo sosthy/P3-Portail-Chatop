@@ -7,13 +7,12 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-public class AppUserDTO {
+public class MessageDTO {
 
     private Long id;
-    private String name;
-    private String email;
-    private String password;
-    private Boolean enabled;
+    private RentalDTO rental;
+    private AppUserDTO owner;
+    private String message;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

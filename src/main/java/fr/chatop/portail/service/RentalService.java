@@ -1,8 +1,8 @@
 package fr.chatop.portail.service;
 
-import java.util.List;
-
 import fr.chatop.portail.dto.RentalDTO;
+
+import java.util.List;
 
 public interface RentalService {
     List<RentalDTO> getAllRentals();
