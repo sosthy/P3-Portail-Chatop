@@ -40,12 +40,37 @@ public class FileSystemStorageService implements StorageService {
 
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, destinationFile, StandardCopyOption.REPLACE_EXISTING);
+                // 3. Attendre la disponibilité du fichier
+                waitForFileAvailability(destinationFile, 5, 200); // 5 tentatives, 200ms entre chaque tentative
             }
         } 
         catch (IOException e) 
         {
             throw new StorageException("Failed to store file");
         }
+    }
+
+    private void waitForFileAvailability(Path file, int retries, int delayMs) throws IOException {
+
+        while (retries > 0)
+        {
+            if (Files.exists(file) && Files.isReadable(file)) {
+                return; // Le fichier est disponible
+            }
+
+            try
+            {
+                Thread.sleep(delayMs); // Attendre avant la prochaine tentative
+            }
+            catch (InterruptedException e)
+            {
+                Thread.currentThread().interrupt(); // Réinterrompre le thread
+                throw new IOException("Attente interrompue pour le fichier : " + file, e);
+            }
+
+            retries--;
+        }
+        throw new IOException("Le fichier n'est pas disponible après plusieurs tentatives : " + file);
     }
     
 }

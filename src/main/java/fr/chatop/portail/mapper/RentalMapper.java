@@ -1,7 +1,6 @@
 package fr.chatop.portail.mapper;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -14,27 +13,24 @@ import fr.chatop.portail.entity.Rental;
 @Mapper
 public interface RentalMapper {
 
-    @Mapping(target = "picturesFiles", ignore = true)
+    @Mapping(target = "pictureFile", ignore = true)
     @Mapping(target = "ownerId", source = "owner.id")
-    @Mapping(target = "picturesNames", expression = "java(stringToPictureList(rental.getPicture()))")
+    @Mapping(target = "pictureName", source = "picture")
     RentalDTO toDTO(Rental rental);
 
     @Mapping(target = "owner.id", source = "ownerId")
-    @Mapping(target = "picture", expression = "java(picturesToString(rentalDTO.getPicturesFiles()))")
+    @Mapping(target = "picture", expression = "java(pictureFileToString(rentalDTO.getPictureFile()))")
     Rental toEntity(RentalDTO rentalDTO);
 
-    @Mapping(target = "picture", source = "picturesNames")
+    @Mapping(target = "picture", source = "pictureName")
     RentalResponseDTO toResponseDTO(RentalDTO rentalDTO);
 
     List<RentalDTO> toDTO(List<Rental> rentals);
 
     List<RentalResponseDTO> toResponseDTO(List<RentalDTO> rentalDTOs);
 
-    default String picturesToString(List<MultipartFile> files) {
-        return files.stream().map(MultipartFile::getOriginalFilename).collect(Collectors.joining(","));
+    default String pictureFileToString(MultipartFile file) {
+        return String.format("http://localhost:3001/uploads/%s", file.getOriginalFilename());
     }
 
-    default List<String> stringToPictureList(String filenames) {
-        return List.of(filenames.split(","));
-    }
 }

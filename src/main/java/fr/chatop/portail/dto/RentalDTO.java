@@ -5,8 +5,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -14,8 +12,8 @@ public class RentalDTO {
     
     private Long id;
     private String name;
-    private List<MultipartFile> picturesFiles = new ArrayList<>();
-    private List<String> picturesNames = new ArrayList<>();
+    private MultipartFile pictureFile;
+    private String pictureName;
     private String description;
     private Long ownerId;
     private Double surface;

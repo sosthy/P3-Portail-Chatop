@@ -9,6 +9,7 @@ import fr.chatop.portail.repository.UserRepository;
 import fr.chatop.portail.service.RentalService;
 import fr.chatop.portail.service.StorageService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class RentalServiceImpl implements RentalService {
@@ -49,7 +51,7 @@ public class RentalServiceImpl implements RentalService {
         final var user = userRepository.findByEmail(userDetails.getUsername()).get();
         final Rental rental = rentalMapper.toEntity(rentalDTO);
         rental.setOwner(user);
-        rentalDTO.getPicturesFiles().forEach(storageService::store);
+        storageService.store(rentalDTO.getPictureFile());
         rentalRepository.save(rental);
         return rentalMapper.toDTO(rental);
     }
